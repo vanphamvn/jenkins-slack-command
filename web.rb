@@ -80,11 +80,6 @@ post '/' do
     notifier.ping "List of matched jobs:#{match_job}"
   end
   
-  # Add Email Notification
-  if command == "-add--email"
-    @client.job.add_email_notification(:name =>"#{job_name}" ,:notification_email =>"#{commandValue}")
-  end
-  
   # Print list of command and usage
   if command == "-help"
     puts 'Help Page'
