@@ -54,6 +54,9 @@ post '/' do
   slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
   if slack_webhook_url
     notifier = Slack::Notifier.new slack_webhook_url
+    do
+    middleware :format_message, :format_attachments
+    end
   end
   
   # Make jenkins request
