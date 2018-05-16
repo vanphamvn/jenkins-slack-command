@@ -97,23 +97,9 @@ post '/' do
   if command == "-get--status"
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
-    notifier.post {
-    "ok": true,
-    "channel": "CARNS2EES",
-    "ts": "1526481269.000045",
-    "message": {
-        "text": "build status",
-        "username": "Zenokins",
-        "icons": {
-            "emoji": ":+1:",
-            "image_64": "https:\/\/cfr.slack-edge.com\/37d58\/img\/emoji_2017_12_06\/apple\/1f44d.png"
-        },
-        "bot_id": "BART0HGNT",
-        "type": "message",
-        "subtype": "bot_message",
-        "ts": "1526481269.000045"
-    }
-  }
+    notifier.post {"message":{"text": "build status","username": "Zenokins","icons": {"emoji": ":+1:",
+      "image_64": "https:\/\/cfr.slack-edge.com\/37d58\/img\/emoji_2017_12_06\/apple\/1f44d.png"},"bot_id": "BART0HGNT",
+      "type": "message","subtype": "bot_message"}}
   end
   
 
