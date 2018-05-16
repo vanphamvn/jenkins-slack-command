@@ -21,7 +21,7 @@ post '/' do
   return [401, "No authorized for this command"] unless slack_token == params['token']
 
   jenkins_no_token= ENV['JENKINS_NOTOKEN_URL']
-  
+  a_ok_note=""
   # Split command text
   text_parts = params['text'].split(' ')
   puts text_parts
@@ -104,7 +104,7 @@ post '/' do
       text: "Jenkins job #{job_name} is *#{job_status}*",
       color: "good"
       }
-    notifier.post attachments: [a_ok_note]
+    #notifier.post attachments: [a_ok_note]
     #notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
     #notifier.post text: "with an attachment", attachments: [a_ok_note]
     #notifier.post "text": "*'#{job_status}'*","username": "Build Status","icon_emoji": ":ghost:"#, "attachments": [a_ok_note]
@@ -115,16 +115,28 @@ post '/' do
   # Update Job Name
   if command == "-update--jobname"
     @client.job.rename("#{job_name}","#{commandValue}")
+    a_ok_note = {
+      text: "Your Jenkins job has been renamed to *#{commandValue}*",
+      color: "good"
+      }
   end
   
   # Disable Job 
   if command == "-disable"
     @client.job.disable("#{job_name}")
+    a_ok_note = {
+      text: "Your Jenkins job *#{job_name}* has been disabled",
+      color: "warning"
+      }
   end
   
   # Enable Job 
   if command == "-enable"
     @client.job.enable("#{job_name}")
+    a_ok_note = {
+      text: "Your Jenkins job *#{job_name}* has been enabled",
+      color: "good"
+      }
   end
-  
+  notifier.post attachments: [a_ok_note]
 end
