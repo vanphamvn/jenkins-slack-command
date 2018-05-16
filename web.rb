@@ -45,7 +45,8 @@ post '/' do
   jenkins_notoken_job_url = "#{jenkins_no_token}/job/#{job_name}"
   
   # Get Jenkins client
-  @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
+  #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
+  @client = JenkinsApi::Client.new(YAML.load_file(File.expand_path("~/.jenkins_api_client/login.yml", __FILE__)))
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -61,15 +62,20 @@ post '/' do
   
   # Make jenkins request
   if command=="-build"
-    json = JSON.generate( {:parameter => parameters} )
-    resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
+    #json = JSON.generate( {:parameter => parameters} )
+    #resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
+    jobs_to_filter = "^#{job_name}.*"
+    jobs = @client.job.list(jobs_to_filter)
+    initial_jobs = @client.job.chain(jobs, 'success', ["all"])
+    code = @client.job.build(initial_jobs[0])
+    raise "Could not build the job specified" unless code == '201'
 
 
     # Build url
     build_url = "#{jenkins_job_url}/#{next_build_number}"
     notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
 
-    build_url
+    #build_url
   end # End make jenkins request
 
   if command == "-search"
