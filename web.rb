@@ -22,12 +22,10 @@ post '/' do
   # Split command text
   text_parts = params['text'].split(' ')
   puts text_parts
-  puts params['text']
-  puts(text_parts)
-  puts(params['text'])
   # Split command text - job
   job = text_parts[0]
-
+  command = text_parts[1]
+  puts command
   # Split command text - parameters
   parameters = []
   if text_parts.size > 1
