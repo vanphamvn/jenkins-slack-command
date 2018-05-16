@@ -87,7 +87,7 @@ post '/' do
   end
   
   # Print list of command and usage
-  if command == "-help"
+  if text_parts[0] == "-help" || text_parts[1] == "-help"
     puts 'Help Page'
     a_ok_note = {
       text: "*List of commands*\n
