@@ -39,7 +39,13 @@ post '/' do
 
   # Jenkins url
   jenkins_job_url = "#{jenkins_url}/job/#{job_name}"
-
+  
+  # Get Jenkins client
+  @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
+  
+  # Get Jenkins job
+  aJob=JenkinsApi::Client::Job.new()
+  
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
   resp_json = JSON.parse( resp.body )
@@ -65,19 +71,33 @@ post '/' do
 
   if command == "-search"
     puts '#{jenkins_url}'
-    @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
+    #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     match_job=@client.job.list("^#{job_name}")
     puts match_job
     notifier.ping "List of matched jobs:#{match_job}"
   end
+  
   # Print list of command and usage
   if command == "-help"
     puts 'Help Page'
   end
+  
   # View Bash/Shell command
   if command == ""
   end
+  
   # Get Job Status
   if command == "status"
   end
+  
+  # Add Email Notification
+  if command == "-add--email"
+    
+  end
+  
+  # Update Job Name
+  if command == "-update--jobname"
+    
+  end
+  
 end
