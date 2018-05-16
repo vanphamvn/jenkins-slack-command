@@ -24,8 +24,8 @@ post '/' do
   text_parts = params['text'].split(' ')
   puts text_parts
   # Split command text - job name
-  command = text_parts[0]
-  job_name = text_parts[1]
+  job_name = text_parts[0]
+  command = text_parts[1]
   commandValue = text_parts[2]
   # Split command text - parameters
   parameters = []
@@ -79,9 +79,6 @@ post '/' do
   
   # Add Email Notification
   if command == "-add--email"
-    puts @aJob
-    puts #{job_name}
-    puts #{commandValue}
     @client.job.add_email_notification(:name =>"#{job_name}" ,:notification_email =>"#{commandValue}")
   end
   
@@ -95,8 +92,9 @@ post '/' do
   end
   
   # Get Job Status
-  if command == "status"
-    aJob_status=@client.job.exist
+  if command == "-get--status"
+    job_status=@client.job.get_current_build_status("#{job_name}")
+    notifier.ping "Current build status is :#{job_status}"
   end
   
 
