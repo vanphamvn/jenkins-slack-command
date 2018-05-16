@@ -120,7 +120,7 @@ post '/' do
 
   
   # Update Job Name
-  if command == "-update--jobname"
+  if command == "-rename"
     @client.job.rename("#{job_name}","#{commandValue}")
     a_ok_note = {
       text: "Your Jenkins job has been renamed to *#{commandValue}*",
