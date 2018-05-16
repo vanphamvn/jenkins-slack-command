@@ -47,11 +47,6 @@ post '/' do
   # Get Jenkins client
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
   #@client = JenkinsApi::Client.new(YAML.load_file(File.expand_path("~/.jenkins-slack-command/login.yml", __FILE__)))
-  
-  # Get next jenkins job build number
-  resp = RestClient.get "#{jenkins_job_url}/api/json"
-  resp_json = JSON.parse( resp.body )
-  next_build_number = resp_json['nextBuildNumber']
 
   slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
   if slack_webhook_url
@@ -62,6 +57,10 @@ post '/' do
   
   # Make jenkins request
   if command=="-build"
+     # Get next jenkins job build number
+    resp = RestClient.get "#{jenkins_job_url}/api/json"
+    resp_json = JSON.parse( resp.body )
+    next_build_number = resp_json['nextBuildNumber']
     #json = JSON.generate( {:parameter => parameters} )
     #resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
     jobs_to_filter = "^#{job_name}.*"
