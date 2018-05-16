@@ -54,6 +54,6 @@ post '/' do
     notifier.ping "Started job '#{job}' - #{build_url}"
   end
 
-  build_url
+  #build_url
 
 end
