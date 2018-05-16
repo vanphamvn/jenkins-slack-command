@@ -21,7 +21,6 @@ DEPENDENCIES
   rest-client
   sinatra (= 1.1.0)
   slack-notifier
-  json >= 1.0
   mixlib-shellout >= 1.1.0
   nokogiri ~> 1.6
   socksify >= 1.7.0
