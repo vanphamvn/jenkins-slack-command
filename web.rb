@@ -77,6 +77,14 @@ post '/' do
     notifier.ping "List of matched jobs:#{match_job}"
   end
   
+  # Add Email Notification
+  if command == "-add--email"
+    puts @aJob
+    puts #{job_name}
+    puts #{commandValue}
+    @aJob("#{job_name}").add_email_notification("#{commandValue}")
+  end
+  
   # Print list of command and usage
   if command == "-help"
     puts 'Help Page'
@@ -91,10 +99,7 @@ post '/' do
     aJob_status=@client.job.exist
   end
   
-  # Add Email Notification
-  if command == "-add--email"
-    @aJob("#{job_name}").add_email_notification("#{commandValue}")
-  end
+
   
   # Update Job Name
   if command == "-update--jobname"
