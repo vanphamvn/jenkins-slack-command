@@ -95,7 +95,7 @@ post '/' do
   if command == "-get--status"
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
-    notifier.post text:"Current build status of job",icon_emoji: ":+1:"
+    notifier.post channel:"zeno_bot",text:"Current build status of job",icon_emoji: ":+1:"
   end
   
 
