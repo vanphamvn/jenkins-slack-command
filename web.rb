@@ -97,7 +97,7 @@ post '/' do
   if command == "-get--status"
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
-    notifier.post "text": "build status","username": "Zenokins","icon_url": "http://static.mailchimp.com/web/favicon.png"
+    notifier.post "text": "build status","username": "Zenokins","icon_url": "http://static.mailchimp.com/web/favicon.png","icon_emoji": ":ghost:"
   end
   
 
