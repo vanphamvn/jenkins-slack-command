@@ -104,7 +104,7 @@ post '/' do
       text: "Jenkins job #{job_name} is *#{job_status}*",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
     #notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
     #notifier.post text: "with an attachment", attachments: [a_ok_note]
     #notifier.post "text": "*'#{job_status}'*","username": "Build Status","icon_emoji": ":ghost:"#, "attachments": [a_ok_note]
@@ -119,6 +119,7 @@ post '/' do
       text: "Your Jenkins job has been renamed to *#{commandValue}*",
       color: "good"
       }
+    notifier.post attachments: [a_ok_note]
   end
   
   # Disable Job 
@@ -128,6 +129,7 @@ post '/' do
       text: "Your Jenkins job *#{job_name}* has been disabled",
       color: "warning"
       }
+    notifier.post attachments: [a_ok_note]
   end
   
   # Enable Job 
@@ -137,6 +139,7 @@ post '/' do
       text: "Your Jenkins job *#{job_name}* has been enabled",
       color: "good"
       }
+    notifier.post attachments: [a_ok_note]
   end
-  notifier.post attachments: [a_ok_note]
+  
 end
