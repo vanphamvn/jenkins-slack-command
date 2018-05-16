@@ -89,6 +89,14 @@ post '/' do
   # Print list of command and usage
   if command == "-help"
     puts 'Help Page'
+    a_ok_note = {
+      text: "*List of commands*\n
+      -build: Trigger a Jenkins job.\n
+      -search: Search for Jenkins job by name.\n
+      -get--configuration: Print job's configuration.\n",
+      color: "good"
+      }
+    notifier.post attachments: [a_ok_note]
   end
   
   # View Bash/Shell command
