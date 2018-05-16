@@ -64,7 +64,7 @@ post '/' do
   end # End make jenkins request
 
     if command == list
-      @client=JenkinsApi::Client.new(:server_url =>#{jenkins_url}),:username => 'medu', :password => 'password')
-      puts @client.job.list("^slacktest")
+      client=JenkinsApi::Client.new(:server_url =>#{jenkins_url}),:username => 'medu', :password => 'password')
+      puts client.job.list_all
     end
 end
