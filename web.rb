@@ -20,7 +20,9 @@ post '/' do
   # Split command text
   text_parts = params['text'].split(' ')
   puts text_parts
-  console.log(text_parts) 
+  puts params['text']
+  puts(text_parts)
+  puts(params['text'])
   # Split command text - job
   job = text_parts[0]
 
