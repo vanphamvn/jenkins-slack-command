@@ -144,13 +144,13 @@ post '/' do
   end
   
   # Create Job 
-  if command == "-create"
-    @client.job.create("#{job_name}")
-    a_ok_note = {
-      text: "This action is currently NOT supported",
-      color: "danger"
-      }
-    notifier.post attachments: [a_ok_note]
-  end
+  #if command == "-create"
+  #  @client.job.create("#{job_name}")
+  #  a_ok_note = {
+  #    text: "This action is currently NOT supported",
+  #    color: "danger"
+  #    }
+  #  notifier.post attachments: [a_ok_note]
+  #end
   
 end
