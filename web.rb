@@ -64,7 +64,7 @@ post '/' do
   end # End make jenkins request
 
   if command == "search"
-    puts #{jenkins_url}
+    puts '#{jenkins_url}'
     @client=JenkinsApi::Client.new(:server_url =>'#{jenkins_url}',:username => 'medu', :password => 'password')
     puts @client.job.list("^'#{job_name}'")
   end
