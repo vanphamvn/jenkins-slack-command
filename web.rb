@@ -55,27 +55,7 @@ post '/' do
     end
   end
   
-  # Make jenkins request
-  if command=="-build"
-     # Get next jenkins job build number
-    resp = RestClient.get "#{jenkins_job_url}/api/json"
-    resp_json = JSON.parse( resp.body )
-    next_build_number = resp_json['nextBuildNumber']
-    #json = JSON.generate( {:parameter => parameters} )
-    #resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
-    jobs_to_filter = "^#{job_name}.*"
-    jobs = @client.job.list(jobs_to_filter)
-    initial_jobs = @client.job.chain(jobs, 'success', ["all"])
-    code = @client.job.build(initial_jobs[0])
-    raise "Could not build the job specified" unless code == '201'
-
-
-    # Build url
-    build_url = "#{jenkins_job_url}/#{next_build_number}"
-    notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
-
-    #build_url
-  end # End make jenkins request
+  
   
   # Condition start
   # Print list of command and usage
@@ -91,9 +71,27 @@ post '/' do
     notifier.post attachments: [a_ok_note]
   end
   
-  case command
-  # Search for job by name
-  when "-search"
+  case 
+  # Make jenkins request
+  when command=="-build"
+     # Get next jenkins job build number
+    resp = RestClient.get "#{jenkins_job_url}/api/json"
+    resp_json = JSON.parse( resp.body )
+    next_build_number = resp_json['nextBuildNumber']
+    #json = JSON.generate( {:parameter => parameters} )
+    #resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
+    jobs_to_filter = "^#{job_name}.*"
+    jobs = @client.job.list(jobs_to_filter)
+    initial_jobs = @client.job.chain(jobs, 'success', ["all"])
+    code = @client.job.build(initial_jobs[0])
+    raise "Could not build the job specified" unless code == '201'
+    # Build url
+    build_url = "#{jenkins_job_url}/#{next_build_number}"
+    notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
+    # End make jenkins request
+
+    # Search for job by name
+  when command=="-search"
     puts '#{jenkins_url}'
     #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     match_job=@client.job.list("^#{job_name}")
@@ -101,7 +99,7 @@ post '/' do
     notifier.ping "List of matched jobs:#{match_job}"
    
   # Print job configuration
-  when "-get--configuration"# View Bash/Shell command
+  when command=="-get--configuration"# View Bash/Shell command
     job_config=@client.job.get_config(job_name)
     a_ok_note = {
       text: "Configuration: *#{job_config}*",
@@ -110,7 +108,7 @@ post '/' do
     notifier.post attachments: [a_ok_note]
     
   # Get Job Status
-  when "-get--status"  
+  when command=="-get--status"  
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
     a_ok_note = {
@@ -122,7 +120,7 @@ post '/' do
   end
   
   # Update Job Name
-  when "-rename"
+  when command=="-rename"
     @client.job.rename("#{job_name}","#{commandValue}")
     a_ok_note = {
       text: "Your Jenkins job has been renamed to *#{commandValue}*",
@@ -131,7 +129,7 @@ post '/' do
     notifier.post attachments: [a_ok_note]
   
   # Disable Job 
-  when "-disable"
+  when command=="-disable"
     @client.job.disable("#{job_name}")
     a_ok_note = {
       text: "Your Jenkins job *#{job_name}* has been disabled",
@@ -140,7 +138,7 @@ post '/' do
     notifier.post attachments: [a_ok_note]
   
   # Enable Job 
-  when "-enable" 
+  when command=="-enable" 
     @client.job.enable("#{job_name}")
     a_ok_note = {
       text: "Your Jenkins job *#{job_name}* has been enabled",
