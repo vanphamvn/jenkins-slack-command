@@ -99,10 +99,10 @@ post '/' do
     #notifier.ping "Current build status of job"
     a_ok_note = {
       fallback: "Everything looks peachy",
-      text: "Everything looks peachy",
+      #text: "Everything looks peachy",
       color: "good"
       }
-    notifier.post "text": "#{job_name} is *'#{job_status}'*", attachments: [a_ok_note]
+    notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
     #notifier.post text: "with an attachment", attachments: [a_ok_note]
     #notifier.post "text": "*'#{job_status}'*","username": "Build Status","icon_emoji": ":ghost:"#, "attachments": [a_ok_note]
   end
