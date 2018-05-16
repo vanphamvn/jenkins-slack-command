@@ -102,10 +102,12 @@ post '/' do
     #notifier.ping "Current build status of job"
     a_ok_note = {
       #fallback: #{jenkins_job_url},
-      text: "Job URL: #{jenkins_notoken_job_url}",
+      #text: "Job URL: #{jenkins_notoken_job_url}",
+      text: "#{job_name} is *#{job_status}*",
       color: "good"
       }
-    notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
+    #notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
     #notifier.post text: "with an attachment", attachments: [a_ok_note]
     #notifier.post "text": "*'#{job_status}'*","username": "Build Status","icon_emoji": ":ghost:"#, "attachments": [a_ok_note]
   end
