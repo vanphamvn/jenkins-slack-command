@@ -117,7 +117,6 @@ post '/' do
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
-  end
   
   # Update Job Name
   when command=="-rename"
