@@ -20,6 +20,8 @@ post '/' do
   # Verify slack token matches environment variable
   return [401, "No authorized for this command"] unless slack_token == params['token']
 
+  jenkins_no_token= ENV['JENKINS_NOTOKEN_URL']
+  
   # Split command text
   text_parts = params['text'].split(' ')
   puts text_parts
@@ -39,6 +41,7 @@ post '/' do
 
   # Jenkins url
   jenkins_job_url = "#{jenkins_url}/job/#{job_name}"
+  jenkins_notoken_job_url = "#{jenkins_no_token}/job/#{job_name}"
   
   # Get Jenkins client
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
@@ -99,7 +102,7 @@ post '/' do
     #notifier.ping "Current build status of job"
     a_ok_note = {
       #fallback: #{jenkins_job_url},
-      text: "#{jenkins_job_url}",
+      text: "Job URL: #{jenkins_notoken_job_url}",
       color: "good"
       }
     notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
