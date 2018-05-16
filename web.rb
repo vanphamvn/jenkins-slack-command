@@ -29,6 +29,7 @@ post '/' do
   job_name = text_parts[0]
   command = text_parts[1]
   commandValue = text_parts[2]
+  flag=0
   
   # Split command text - parameters
   parameters = []
@@ -59,7 +60,7 @@ post '/' do
   
   # Condition start
   # Print list of command and usage
-  if text_parts[0] == "-help" || text_parts[1] == "-help"
+  if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help"
     puts 'Help Page'
     a_ok_note = {
       text: "*List of commands*\n
@@ -69,6 +70,7 @@ post '/' do
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
+    flag=1
   end
   
   case 
@@ -144,12 +146,18 @@ post '/' do
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
+    
   else
+    if flag=0
     a_ok_note = {
-      text: "*Quit hacking my bot!*",
-      color: "danger"
+      text: "*List of commands*\n
+      -build: Trigger a Jenkins job.\n
+      -search: Search for Jenkins job by name.\n
+      -get--configuration: Print job's configuration.\n",
+      color: "good"
       }
     notifier.post attachments: [a_ok_note]
+    end
   end
   
   # Create Job 
