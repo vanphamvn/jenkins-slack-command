@@ -45,8 +45,10 @@ post '/' do
   next_build_number = resp_json['nextBuildNumber']
 
   # Make jenkins request
-  json = JSON.generate( {:parameter => parameters} )
-  resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
+  if command=="build"
+    json = JSON.generate( {:parameter => parameters} )
+    resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
+  end
 
   # Build url
   build_url = "#{jenkins_job_url}/#{next_build_number}"
