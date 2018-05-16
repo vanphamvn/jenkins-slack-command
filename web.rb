@@ -44,7 +44,7 @@ post '/' do
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
   
   # Get Jenkins job
-  @aJob=JenkinsApi::Client::Job.new(@client)
+  #@aJob=JenkinsApi::Client::Job.new(@client)
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -82,7 +82,7 @@ post '/' do
     puts @aJob
     puts #{job_name}
     puts #{commandValue}
-    @aJob("#{job_name}").add_email_notification("#{commandValue}")
+    @client.job.add_email_notification(:name =>"#{job_name}" ,:notification_email =>"#{commandValue}")
   end
   
   # Print list of command and usage
