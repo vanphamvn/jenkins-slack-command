@@ -91,7 +91,14 @@ post '/' do
   end
   
   # View Bash/Shell command
-  if command == ""
+  if command == "-get--configuration"
+    job_config=@client.job.get_config(job_name)
+    a_ok_note = {
+      text: "Configuration: *#{job_config}*",
+      color: "good"
+      }
+    notifier.post attachments: [a_ok_note]
+    
   end
   
   # Get Job Status
@@ -99,7 +106,6 @@ post '/' do
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
     a_ok_note = {
-      #fallback: #{jenkins_job_url},
       #text: "Job URL: #{jenkins_notoken_job_url}",
       text: "Jenkins job #{job_name} is *#{job_status}*",
       color: "good"
