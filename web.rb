@@ -98,8 +98,8 @@ post '/' do
     job_status=@client.job.get_current_build_status("#{job_name}")
     #notifier.ping "Current build status of job"
     a_ok_note = {
-      fallback: "Everything looks peachy",
-      #text: "Everything looks peachy",
+      #fallback: #{jenkins_job_url},
+      text: "#{jenkins_job_url}",
       color: "good"
       }
     notifier.post "text": "#{job_name} is *#{job_status}*", attachments: [a_ok_note]
