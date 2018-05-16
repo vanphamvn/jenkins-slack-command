@@ -2,6 +2,7 @@ require 'sinatra'
 require 'rest-client'
 require 'json'
 require 'slack-notifier'
+require 'jenkins_api_client'
 
 $stdout.sync = true
 
