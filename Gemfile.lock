@@ -21,3 +21,8 @@ DEPENDENCIES
   rest-client
   sinatra (= 1.1.0)
   slack-notifier
+  mixlib-shellout >= 1.1.0
+  nokogiri ~> 1.6
+  socksify >= 1.7.0
+  terminal-table >= 1.4.0
+  thor >= 0.16.0
