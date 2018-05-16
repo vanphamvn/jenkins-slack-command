@@ -67,7 +67,7 @@ post '/' do
       -get--configuration: Print job's configuration.\n",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
     flag="off"
   end
   
@@ -96,7 +96,7 @@ post '/' do
     #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     match_job=@client.job.list("^#{job_name}")
     puts match_job
-    #notifier.ping "List of matched jobs:#{match_job}"
+    notifier.ping "List of matched jobs:#{match_job}"
    
   # Print job configuration
   when command=="-get--configuration"# View Bash/Shell command
@@ -105,7 +105,7 @@ post '/' do
       text: "Configuration: *#{job_config}*",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
     
   # Get Job Status
   when command=="-get--status"  
@@ -116,7 +116,7 @@ post '/' do
       text: "Jenkins job #{job_name} is *#{job_status}*",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
   
   # Update Job Name
   when command=="-rename"
@@ -125,7 +125,7 @@ post '/' do
       text: "Your Jenkins job has been renamed to *#{commandValue}*",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
   
   # Disable Job 
   when command=="-disable"
@@ -134,7 +134,7 @@ post '/' do
       text: "Your Jenkins job *#{job_name}* has been disabled",
       color: "warning"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
   
   # Enable Job 
   when command=="-enable" 
@@ -143,7 +143,7 @@ post '/' do
       text: "Your Jenkins job *#{job_name}* has been enabled",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
     
   else
     puts flag
@@ -155,7 +155,7 @@ post '/' do
       -get--configuration: Print job's configuration.\n",
       color: "good"
       }
-    #notifier.post attachments: [a_ok_note]
+    notifier.post attachments: [a_ok_note]
     end #if
   end
   
@@ -168,5 +168,4 @@ post '/' do
   #    }
   #  notifier.post attachments: [a_ok_note]
   #end
-  notifier.post attachments: [a_ok_note]
 end
