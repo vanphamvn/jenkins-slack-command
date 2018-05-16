@@ -24,8 +24,8 @@ post '/' do
   text_parts = params['text'].split(' ')
   puts text_parts
   # Split command text - job
-  job_name = text_parts[0]
-  command = text_parts[1]
+  job_name = text_parts[1]
+  command = text_parts[0]
   puts command
   # Split command text - parameters
   parameters = []
@@ -51,7 +51,7 @@ post '/' do
   end
   
   # Make jenkins request
-  if command=="build"
+  if command=="-build"
     json = JSON.generate( {:parameter => parameters} )
     resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
 
@@ -63,11 +63,21 @@ post '/' do
     build_url
   end # End make jenkins request
 
-  if command == "search"
+  if command == "-search"
     puts '#{jenkins_url}'
     @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     match_job=@client.job.list("^#{job_name}")
     puts match_job
     notifier.ping "List of matched jobs:#{match_job}"
+  end
+  # Print list of command and usage
+  if command == "-help"
+    puts 'Help Page'
+  end
+  # View Bash/Shell command
+  if command == ""
+  end
+  # Get Job Status
+  if command == "status"
   end
 end
