@@ -67,7 +67,8 @@ post '/' do
   if command == "search"
     puts '#{jenkins_url}'
     @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
-    puts @client.job.list("^#{job_name}")
-    notifier.ping "List of matched jobs:" @client.job.list("^#{job_name}")
+    match_job=@client.job.list("^#{job_name}")
+    puts match_job
+    notifier.ping "List of matched jobs:#{match_job}"
   end
 end
