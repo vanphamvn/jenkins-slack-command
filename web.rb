@@ -29,6 +29,7 @@ post '/' do
   job_name = text_parts[0]
   command = text_parts[1]
   commandValue = text_parts[2]
+  
   # Split command text - parameters
   parameters = []
   if text_parts.size > 1
@@ -45,9 +46,6 @@ post '/' do
   
   # Get Jenkins client
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
-  
-  # Get Jenkins job
-  #@aJob=JenkinsApi::Client::Job.new(@client)
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -116,7 +114,17 @@ post '/' do
   
   # Update Job Name
   if command == "-update--jobname"
-    
+    @client.job.rename("#{job_name}","#{commandValue}")
+  end
+  
+  # Disable Job 
+  if command == "-disable"
+    @client.job.disable("#{job_name}")
+  end
+  
+  # Enable Job 
+  if command == "-enable"
+    @client.job.enable("#{job_name}")
   end
   
 end
