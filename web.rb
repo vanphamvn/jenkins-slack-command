@@ -94,7 +94,8 @@ post '/' do
   # Get Job Status
   if command == "-get--status"
     job_status=@client.job.get_current_build_status("#{job_name}")
-    notifier.ping "Current build status of job `"#{job_name}"` is : #{job_status}"
+    notifier.ping "Current build status of job "#{job_name}" is : #{job_status}"
+    notifier.post text: "Current build status of job "#{job_name}" is : #{job_status}", icon_emoji: ":+1:"
   end
   
 
