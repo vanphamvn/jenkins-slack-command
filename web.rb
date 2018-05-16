@@ -93,7 +93,7 @@ post '/' do
   
   # Add Email Notification
   if command == "-add--email"
-    @client.job.list("#{job_name}").add_email_notification("#{commandValue}")
+    @client.job.list("#{job_name}")[0].add_email_notification("#{commandValue}")
   end
   
   # Update Job Name
