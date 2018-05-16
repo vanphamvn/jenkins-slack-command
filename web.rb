@@ -48,17 +48,17 @@ post '/' do
   if command=="build"
     json = JSON.generate( {:parameter => parameters} )
     resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
-  end
 
-  # Build url
-  build_url = "#{jenkins_job_url}/#{next_build_number}"
 
-  slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
-  if slack_webhook_url
-    notifier = Slack::Notifier.new slack_webhook_url
-    notifier.ping "Started job '#{job}' - #{build_url}"
-  end
+    # Build url
+    build_url = "#{jenkins_job_url}/#{next_build_number}"
 
-  build_url
+    slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
+    if slack_webhook_url
+      notifier = Slack::Notifier.new slack_webhook_url
+      notifier.ping "Started job '#{job}' - #{build_url}"
+    end
 
+    build_url
+  end # End make jenkins request
 end
