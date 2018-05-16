@@ -65,7 +65,7 @@ post '/' do
 
   if command == "search"
     puts '#{jenkins_url}'
-    @client=JenkinsApi::Client.new(:server_url =>#{jenkins_url},:username => 'medu', :password => 'password')
+    @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     puts @client.job.list("^#{job_name}")
   end
 end
