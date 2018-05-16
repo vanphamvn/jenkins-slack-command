@@ -19,7 +19,7 @@ post '/' do
 
   # Split command text
   text_parts = params['text'].split(' ')
-
+  puts text_parts
   # Split command text - job
   job = text_parts[0]
 
