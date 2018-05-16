@@ -44,7 +44,7 @@ post '/' do
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
   
   # Get Jenkins job
-  @aJob=JenkinsApi::Client::Job.new("#{job_name}")
+  #@aJob=JenkinsApi::Client::Job.new("#{job_name}")
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -93,7 +93,7 @@ post '/' do
   
   # Add Email Notification
   if command == "-add--email"
-    @aJob.add_email_notification("#{commandValue}")
+    @client.job.list("#{job_name}").add_email_notification("#{commandValue}")
   end
   
   # Update Job Name
