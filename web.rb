@@ -24,7 +24,7 @@ post '/' do
   text_parts = params['text'].split(' ')
   puts text_parts
   # Split command text - job
-  job = text_parts[0]
+  job_name = text_parts[0]
   command = text_parts[1]
   puts command
   # Split command text - parameters
@@ -38,7 +38,7 @@ post '/' do
   end
 
   # Jenkins url
-  jenkins_job_url = "#{jenkins_url}/job/#{job}"
+  jenkins_job_url = "#{jenkins_url}/job/#{job_name}"
 
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -57,14 +57,14 @@ post '/' do
     slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
     if slack_webhook_url
       notifier = Slack::Notifier.new slack_webhook_url
-      notifier.ping "Started job '#{job}' - #{build_url}"
+      notifier.ping "Started job '#{job_name}' - #{build_url}"
     end
 
     build_url
   end # End make jenkins request
 
     if command == list
-      client=JenkinsApi::Client.new(:server_url =>#{jenkins_url}),:username => 'medu', :password => 'password')
-      puts client.job.list_all
+      @client=JenkinsApi::Client.new(:server_url =>#{jenkins_url}),:username => 'medu', :password => 'password')
+      puts @client.job.list_all
     end
 end
