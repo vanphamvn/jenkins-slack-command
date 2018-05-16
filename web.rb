@@ -103,7 +103,7 @@ post '/' do
     a_ok_note = {
       #fallback: #{jenkins_job_url},
       #text: "Job URL: #{jenkins_notoken_job_url}",
-      text: "#{job_name} is *#{job_status}*",
+      text: "Jenkins job #{job_name} is *#{job_status}*",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
