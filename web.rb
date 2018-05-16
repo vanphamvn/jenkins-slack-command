@@ -3,6 +3,8 @@ require 'rest-client'
 require 'json'
 require 'slack-notifier'
 
+$stdout.sync = true
+
 get '/' do
   "This is a thing"
 end
