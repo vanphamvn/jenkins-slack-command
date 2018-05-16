@@ -45,8 +45,8 @@ post '/' do
   jenkins_notoken_job_url = "#{jenkins_no_token}/job/#{job_name}"
   
   # Get Jenkins client
-  #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
-  @client = JenkinsApi::Client.new(YAML.load_file(File.expand_path("~/.jenkins-slack-command/login.yml", __FILE__)))
+  @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
+  #@client = JenkinsApi::Client.new(YAML.load_file(File.expand_path("~/.jenkins-slack-command/login.yml", __FILE__)))
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
