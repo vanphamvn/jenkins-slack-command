@@ -23,9 +23,10 @@ post '/' do
   # Split command text
   text_parts = params['text'].split(' ')
   puts text_parts
-  # Split command text - job
-  job_name = text_parts[1]
+  # Split command text - job name
   command = text_parts[0]
+  job_name = text_parts[1]
+  commandValue = text_parts[2]
   puts command
   # Split command text - parameters
   parameters = []
@@ -44,7 +45,7 @@ post '/' do
   @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
   
   # Get Jenkins job
-  aJob=JenkinsApi::Client::Job.new()
+  aJob=JenkinsApi::Client::Job.new(:job_name => "#{job_name}")
   
   # Get next jenkins job build number
   resp = RestClient.get "#{jenkins_job_url}/api/json"
@@ -88,11 +89,12 @@ post '/' do
   
   # Get Job Status
   if command == "status"
+    aJob_status=@client.job.exist
   end
   
   # Add Email Notification
   if command == "-add--email"
-    
+    @client.job.add_email_notification("#{commandValue}")
   end
   
   # Update Job Name
