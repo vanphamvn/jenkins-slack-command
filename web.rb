@@ -67,7 +67,7 @@ post '/' do
 
     # Build url
     build_url = "#{jenkins_job_url}/#{next_build_number}"
-    notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}"
+    notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
 
     build_url
   end # End make jenkins request
