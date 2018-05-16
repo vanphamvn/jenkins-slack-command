@@ -45,6 +45,12 @@ post '/' do
   resp_json = JSON.parse( resp.body )
   next_build_number = resp_json['nextBuildNumber']
 
+  slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
+  if slack_webhook_url
+    notifier = Slack::Notifier.new slack_webhook_url
+    notifier.ping "Started job '#{job_name}' - #{build_url}"
+  end
+  
   # Make jenkins request
   if command=="build"
     json = JSON.generate( {:parameter => parameters} )
@@ -53,12 +59,7 @@ post '/' do
 
     # Build url
     build_url = "#{jenkins_job_url}/#{next_build_number}"
-
-    slack_webhook_url = ENV['SLACK_WEBHOOK_URL']
-    if slack_webhook_url
-      notifier = Slack::Notifier.new slack_webhook_url
-      notifier.ping "Started job '#{job_name}' - #{build_url}"
-    end
+    notifier.ping "Started job '#{job_name}' - #{build_url}"
 
     build_url
   end # End make jenkins request
@@ -67,5 +68,6 @@ post '/' do
     puts '#{jenkins_url}'
     @client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     puts @client.job.list("^#{job_name}")
+    notifier.ping "List of matched jobs:" @client.job.list("^#{job_name}")
   end
 end
