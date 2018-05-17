@@ -121,7 +121,7 @@ post '/' do
     end
     a_ok_note = {
       #text: "Job URL: #{jenkins_notoken_job_url}",
-      text: "Jenkins job #{job_name} is *#{job_status}*",
+      text: "Latest build of #{job_name} is a *#{job_status}*",
       color: "#{job_color}"
       }
     notifier.post attachments: [a_ok_note]
