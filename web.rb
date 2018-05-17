@@ -63,15 +63,15 @@ post '/' do
   if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help" || text_parts.size <= 0
     puts 'Help Page'
     a_ok_note = {
-      text: "*List of commands*\n
-      -build: Trigger a Jenkins job. Usage: /zeno <job_name> -build\n
-      -search: Search for Jenkins job by name. Usage: /zeno <job_name> -search\n
-      -rename: Rename a Jenkins job. Usage: /zeno <job_name> -rename <new_name>\n
-      -enable: Enable a Jenkins job. Usage: /zeno <job_name> -enable\n
-      -disable: Disable a Jenkins job. Usage: /zeno <job_name> -disable\n
-      -get--status: Get latest build status of a job. Usage: /zeno <job_name> -get--status\n
-      -get--configuration: Print job's configuration. Usage: /zeno <job_name> -get--configuration\n
-      -help: Display list of options\n",
+      text: "*List of command options:*\n
+      *-build*: Trigger a Jenkins job. Usage: /zeno <job_name> -build\nExample: /zeno slacktest -build\n
+      *-search*: Search for Jenkins job by name. Usage: /zeno <job_name> -search\nExample: /zeno slacktest -search\n
+      *-rename*: Rename a Jenkins job. Usage: /zeno <job_name> -rename <new_name>\nExample: /zeno slacktest -rename superjob\n
+      *-enable*: Enable a Jenkins job. Usage: /zeno <job_name> -enable\nExample: /zeno slacktest -enable\n
+      *-disable*: Disable a Jenkins job. Usage: /zeno <job_name> -disable\nExample: /zeno slacktest -disable\n
+      *-get--status*: Get latest build status of a job. Usage: /zeno <job_name> -get--status\nExample: /zeno slacktest --get--status\n
+      *-get--configuration*: Print job's configuration. Usage: /zeno <job_name> -get--configuration\nExample: /zeno slacktest -get--configuration\n
+      *-help*: Display list of options\nExample: /zeno -help",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
