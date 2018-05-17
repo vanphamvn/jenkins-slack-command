@@ -160,9 +160,14 @@ post '/' do
     if flag=="on"
     a_ok_note = {
       text: "*List of commands*\n
-      -build: Trigger a Jenkins job.\n
-      -search: Search for Jenkins job by name.\n
-      -get--configuration: Print job's configuration.\n",
+      -build: Trigger a Jenkins job. Usage: /zeno <job_name> -build\n
+      -search: Search for Jenkins job by name. Usage: /zeno <job_name> -search\n
+      -rename: Rename a Jenkins job. Usage: /zeno <job_name> -rename <new_name>\n
+      -enable: Enable a Jenkins job. Usage: /zeno <job_name> -enable\n
+      -disable: Disable a Jenkins job. Usage: /zeno <job_name> -disable\n
+      -get--status: Get latest build status of a job. Usage: /zeno <job_name> -get--status\n
+      -get--configuration: Print job's configuration. Usage: /zeno <job_name> -get--configuration\n
+      -help: Display list of options\n",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
