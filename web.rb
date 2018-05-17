@@ -77,10 +77,9 @@ post '/' do
     notifier.post attachments: [a_ok_note]
     flag="off"
   end
-  
-  case 
+   
   # Make jenkins request
-  when command=="-build"
+  if command=="-build"
      # Get next jenkins job build number
     resp = RestClient.get "#{jenkins_job_url}/api/json"
     resp_json = JSON.parse( resp.body )
@@ -95,27 +94,27 @@ post '/' do
     # Build url
     build_url = "#{jenkins_job_url}/#{next_build_number}"
     notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
-    # End make jenkins request
+  end # End make jenkins request
 
     # Search for job by name
-  when command=="-search"
+  if command=="-search"
     puts '#{jenkins_url}'
     #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
     match_job=@client.job.list("^#{job_name}")
     puts match_job
     notifier.ping "List of matched jobs:#{match_job}"
-   
+  end 
   # Print job configuration
-  when command=="-get--configuration"# View Bash/Shell command
+  if command=="-get--configuration" # View Bash/Shell command
     job_config=@client.job.get_config(job_name)
     a_ok_note = {
       text: "Configuration: *#{job_config}*",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
-    
+  end 
   # Get Job Status
-  when command=="-get--status"  
+  if command=="-get--status"  
     job_status=@client.job.get_current_build_status("#{job_name}")
     job_color="good"
     if job_status!="success"
@@ -127,60 +126,33 @@ post '/' do
       color: "#{job_color}"
       }
     notifier.post attachments: [a_ok_note]
-  
+  end
   # Update Job Name
-  when command=="-rename"
+  if command=="-rename"
     @client.job.rename("#{job_name}","#{commandValue}")
     a_ok_note = {
       text: "Your Jenkins job has been renamed to *#{commandValue}*",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
-  
+  end
   # Disable Job 
-  when command=="-disable"
+  if command=="-disable"
     @client.job.disable("#{job_name}")
     a_ok_note = {
       text: "Your Jenkins job *#{job_name}* has been disabled",
       color: "warning"
       }
     notifier.post attachments: [a_ok_note]
-  
+  end
   # Enable Job 
-  when command=="-enable" 
+  if command=="-enable" 
     @client.job.enable("#{job_name}")
     a_ok_note = {
       text: "Your Jenkins job *#{job_name}* has been enabled",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
-    
-  else
-    puts flag
-    if flag=="on"
-    a_ok_note = {
-      text: "*List of commands*\n
-      -build: Trigger a Jenkins job. Usage: /zeno <job_name> -build\n
-      -search: Search for Jenkins job by name. Usage: /zeno <job_name> -search\n
-      -rename: Rename a Jenkins job. Usage: /zeno <job_name> -rename <new_name>\n
-      -enable: Enable a Jenkins job. Usage: /zeno <job_name> -enable\n
-      -disable: Disable a Jenkins job. Usage: /zeno <job_name> -disable\n
-      -get--status: Get latest build status of a job. Usage: /zeno <job_name> -get--status\n
-      -get--configuration: Print job's configuration. Usage: /zeno <job_name> -get--configuration\n
-      -help: Display list of options\n",
-      color: "good"
-      }
-    notifier.post attachments: [a_ok_note]
-    end #if
-  end
+  end  
   
-  # Create Job 
-  #if command == "-create"
-  #  @client.job.create("#{job_name}")
-  #  a_ok_note = {
-  #    text: "This action is currently NOT supported",
-  #    color: "danger"
-  #    }
-  #  notifier.post attachments: [a_ok_note]
-  #end
 end
