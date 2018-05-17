@@ -141,7 +141,8 @@ post '/' do
     @client.job.disable("#{job_name}")
     a_ok_note = {
       text: "Your Jenkins job *#{job_name}* has been disabled",
-      color: "warning"
+      color: "warning",
+      icon_emoji:":monkey_face:"
       }
     notifier.post attachments: [a_ok_note]
   end
