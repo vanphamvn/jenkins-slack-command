@@ -60,7 +60,7 @@ post '/' do
   
   # Condition start
   # Print list of command and usage
-  if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help" || text_parts[0].delete(' ') == ""
+  if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help" || text_parts.size <= 0
     puts 'Help Page'
     a_ok_note = {
       text: "*List of commands*\n
