@@ -48,17 +48,15 @@ post '/' do
   
   
   # Condition start
-  # Print list of command and usage
   if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help" || text_parts.size <= 0
     puts 'Result'
     teamList=["MU","Chelsea","Liver","ManCity","Totenham","Arsenal","PSG","Juve","Napoli","Inter","Roma","Real","Barca","Atletico","Bayern","Dortmund","European Classic","World Classic"]
     team = teamList[rand(teamList.length)]
     a_ok_note = {
-      text: "*#{team}*\n,
+      text: "*#{team}*\n",
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
-    flag="off"
   end
   
 end
