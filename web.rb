@@ -61,98 +61,15 @@ post '/' do
   # Condition start
   # Print list of command and usage
   if text_parts[0] == "-help" || text_parts[1] == "-help" || text_parts[2] == "-help" || text_parts.size <= 0
-    puts 'Help Page'
+    puts 'Result'
+    teamList=["MU","Chelsea","Liver","ManCity","Totenham","Arsenal","PSG","Juve","Napoli","Inter","Roma","Real","Barca","Atletico","Bayern","Dortmund","European Classic","World Classic"]
+    team = teamList[rand(teamList.length)]
     a_ok_note = {
-      text: "*List of command options:*\n
-      *-build*: Trigger a Jenkins job. Usage: /zeno <job_name> -build\nExample: /zeno slacktest -build\n
-      *-search*: Search for Jenkins job by name. Usage: /zeno <job_name> -search\nExample: /zeno slacktest -search\n
-      *-rename*: Rename a Jenkins job. Usage: /zeno <job_name> -rename <new_name>\nExample: /zeno slacktest -rename superjob\n
-      *-enable*: Enable a Jenkins job. Usage: /zeno <job_name> -enable\nExample: /zeno slacktest -enable\n
-      *-disable*: Disable a Jenkins job. Usage: /zeno <job_name> -disable\nExample: /zeno slacktest -disable\n
-      *-get--status*: Get latest build status of a job. Usage: /zeno <job_name> -get--status\nExample: /zeno slacktest --get--status\n
-      *-get--configuration*: Print job's configuration. Usage: /zeno <job_name> -get--configuration\nExample: /zeno slacktest -get--configuration\n
-      *-help*: Display list of options\nExample: /zeno -help",
+      text: "*#{team}*\n,
       color: "good"
       }
     notifier.post attachments: [a_ok_note]
     flag="off"
   end
-   
-  # Make jenkins request
-  if command=="-build"
-     # Get next jenkins job build number
-    resp = RestClient.get "#{jenkins_job_url}/api/json"
-    resp_json = JSON.parse( resp.body )
-    next_build_number = resp_json['nextBuildNumber']
-    #json = JSON.generate( {:parameter => parameters} )
-    #resp = RestClient.post "#{jenkins_job_url}/build?token=#{jenkins_token}", :json => json
-    jobs_to_filter = "^#{job_name}.*"
-    jobs = @client.job.list(jobs_to_filter)
-    initial_jobs = @client.job.chain(jobs, 'success', ["all"])
-    code = @client.job.build(initial_jobs[0])
-    raise "Could not build the job specified" unless code == '201'
-    # Build url
-    build_url = "#{jenkins_job_url}/#{next_build_number}"
-    notifier.ping "Started job '#{job_name}' - #{jenkins_notoken_job_url}/#{next_build_number}/"
-  end # End make jenkins request
-
-    # Search for job by name
-  if command=="-search"
-    puts '#{jenkins_url}'
-    #@client=JenkinsApi::Client.new(:server_url =>"#{jenkins_url}",:username => 'medu', :password => 'password')
-    match_job=@client.job.list("^#{job_name}")
-    puts match_job
-    notifier.ping "List of matched jobs:#{match_job}"
-  end 
-  # Print job configuration
-  if command=="-get--configuration" # View Bash/Shell command
-    job_config=@client.job.get_config(job_name)
-    a_ok_note = {
-      text: "Configuration: *#{job_config}*",
-      color: "good"
-      }
-    notifier.post attachments: [a_ok_note]
-  end 
-  # Get Job Status
-  if command=="-get--status"  
-    job_status=@client.job.get_current_build_status("#{job_name}")
-    job_color="good"
-    if job_status!="success"
-      job_color="warning"
-    end
-    a_ok_note = {
-      #text: "Job URL: #{jenkins_notoken_job_url}",
-      text: "Latest build of #{job_name} is a *#{job_status}*",
-      color: "#{job_color}"
-      }
-    notifier.post attachments: [a_ok_note]
-  end
-  # Update Job Name
-  if command=="-rename"
-    @client.job.rename("#{job_name}","#{commandValue}")
-    a_ok_note = {
-      text: "Your Jenkins job has been renamed to *#{commandValue}*",
-      color: "good"
-      }
-    notifier.post attachments: [a_ok_note]
-  end
-  # Disable Job 
-  if command=="-disable"
-    @client.job.disable("#{job_name}")
-    a_ok_note = {
-      text: "Your Jenkins job *#{job_name}* has been disabled",
-      color: "warning"
-      }
-    notifier.post attachments: [a_ok_note]
-  end
-  # Enable Job 
-  if command=="-enable" 
-    @client.job.enable("#{job_name}")
-    a_ok_note = {
-      text: "Your Jenkins job *#{job_name}* has been enabled",
-      color: "good"
-      }
-    notifier.post attachments: [a_ok_note]
-  end  
   
 end
